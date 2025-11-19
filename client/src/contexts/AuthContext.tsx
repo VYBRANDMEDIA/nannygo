@@ -48,16 +48,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loadProfile = async (userId: string) => {
     try {
+      console.log('[AuthContext] Loading profile for userId:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
 
+      console.log('[AuthContext] Profile query result:', { data, error });
       if (error) throw error;
       setProfile(data);
     } catch (error) {
-      console.error('Error loading profile:', error);
+      console.error('[AuthContext] Error loading profile:', error);
+      setProfile(null);
     } finally {
       setLoading(false);
     }
