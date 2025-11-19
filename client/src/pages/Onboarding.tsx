@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
 import { APP_LOGO } from "@/const";
 import { Baby, Heart } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 
 export default function Onboarding() {
-  const { user } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState<"role" | "details">("role");
   const [role, setRole] = useState<"parent" | "nanny" | null>(null);
@@ -20,6 +20,17 @@ export default function Onboarding() {
   const [city, setCity] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  // Redirect if user already has a profile
+  useEffect(() => {
+    if (!authLoading && profile) {
+      if (profile.role === "parent") {
+        setLocation("/app/parent");
+      } else if (profile.role === "nanny") {
+        setLocation("/app/nanny");
+      }
+    }
+  }, [authLoading, profile, setLocation]);
 
   const handleRoleSelect = (selectedRole: "parent" | "nanny") => {
     setRole(selectedRole);
