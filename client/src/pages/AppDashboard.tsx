@@ -13,28 +13,30 @@ export default function AppDashboard() {
 
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    // Don't do anything while loading
+    if (authLoading) return;
+
+    // Not logged in - redirect to home
+    if (!user) {
       setLocation("/");
       return;
     }
 
-    // If user is authenticated but has no profile, redirect to onboarding
-    if (!authLoading && user && !profile) {
+    // User logged in but no profile - redirect to onboarding
+    if (!profile) {
       setLocation("/onboarding");
       return;
     }
 
-    // Redirect based on role
-    if (profile) {
-      if (profile.role === "parent") {
-        setLocation("/app/parent");
-      } else if (profile.role === "nanny") {
-        setLocation("/app/nanny");
-      } else if (profile.role === "admin") {
-        setLocation("/app/admin");
-      }
+    // User has profile - redirect based on role
+    if (profile.role === "parent") {
+      setLocation("/app/parent");
+    } else if (profile.role === "nanny") {
+      setLocation("/app/nanny");
+    } else if (profile.role === "admin") {
+      setLocation("/app/admin");
     }
-  }, [user, profile, authLoading]);
+  }, [user, profile, authLoading, setLocation]);
 
   if (authLoading) {
     return (
