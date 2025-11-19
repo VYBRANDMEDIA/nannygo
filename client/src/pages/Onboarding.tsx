@@ -39,7 +39,7 @@ export default function Onboarding() {
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({
-          user_id: user.id,
+          id: user.id,
           role,
           full_name: fullName,
           phone: phone || null,
