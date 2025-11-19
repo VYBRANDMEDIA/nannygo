@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -10,11 +10,25 @@ import { toast } from 'sonner';
 
 export default function Login() {
   const [, setLocation] = useLocation();
-  const { signIn } = useAuth();
+  const { signIn, profile, loading: authLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Redirect after login when profile is loaded
+  useEffect(() => {
+    if (loading && !authLoading && profile) {
+      // User just logged in and profile is loaded
+      if (profile.role === 'parent') {
+        setLocation('/app/parent');
+      } else if (profile.role === 'nanny') {
+        setLocation('/app/nanny');
+      } else {
+        setLocation('/app');
+      }
+    }
+  }, [loading, authLoading, profile, setLocation]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,10 +37,9 @@ export default function Login() {
     try {
       await signIn(email, password);
       toast.success('Welkom terug!');
-      setLocation('/app');
+      // Don't redirect here - let useEffect handle it after profile loads
     } catch (error: any) {
       toast.error(error.message || 'Inloggen mislukt');
-    } finally {
       setLoading(false);
     }
   };
