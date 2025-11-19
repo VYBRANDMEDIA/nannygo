@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1763116012578,
+      "tag": "0000_big_sprite",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1763116073707,
+      "tag": "0001_legal_vision",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1763116300207,
+      "tag": "0002_giant_typhoid_mary",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1763116378677,
+      "tag": "0003_rapid_lady_ursula",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1763116495663,
+      "tag": "0004_omniscient_falcon",
+      "breakpoints": true
+    }
+  ]
+}
